@@ -1,0 +1,30 @@
+<%- include('inc/header.ejs') -%>
+<%- include('inc/navbar.ejs') -%>
+
+<header class="main-header">
+  <h1 class="pt-5 text-light">Welcome to Amalitech Lunch App</h1>
+  <p class="text-light">What would you like to eat toda?y</p>
+</header>
+<div class="container">
+    <div class="row mt-2 mb-2">
+      <h2 class="text-center mt-2">Available Meals</h2><hr>
+      <% if(foods.length > 0){%>
+        <% foods.forEach((meal)=>{ %>
+        <div class="col">
+            <div class="card foods-items">
+                <img src="images/fd1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><%= meal.foodname%></h5>
+                  <p class="card-text"><%= meal.description%></p>
+                  <a href="#" class="btn btn-outline-warning rounded-pill">Order Now</a>
+                </div>
+              </div>
+        </div>
+      <% }) %>
+        <%}else{%>
+          <h2>No Meal Available</h2>
+          <%}%>
+    </div>
+    
+</div>
+<%- include('inc/footer.ejs') -%>

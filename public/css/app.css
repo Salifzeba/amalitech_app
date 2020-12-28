@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main-header{
+    min-height: 40vh;
+    text-align: center;
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),url('../images/bg.jpg');
+}
+
+.foods-items{
+    width: 22rem;
+}
+.card img{
+    height: 234px;
+}
+
+.col{
+    margin-top: 10px;
+}
+
+footer{
+    position: relative;
+    bottom: 0;
+}

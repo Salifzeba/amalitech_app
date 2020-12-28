@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="../../js/app.js" defer></script>
+    <title>amalitech lunch app - <%= title %></title>
+     
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">Amalitech</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a href="#" class="btn btn-outline-warning rounded-pill" >Logout</a>
+        </div>
+      </nav>
+    
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col-4">
+              <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active d-flex justify-content-between " id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                    Users
+                    <span class="badge bg-primary rounded-pill">14</span>
+                </a>
+                <a class="list-group-item list-group-item-action" id="list-adduser-list" data-bs-toggle="list" href="#list-adduser" role="tab" aria-controls="addusers">Add User</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Orders</a>
+                <a class="list-group-item list-group-item-action" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Meals</a>
+                <a class="list-group-item list-group-item-action" id="list-addFoods-list" data-bs-toggle="list" href="#list-addFoods" role="tab" aria-controls="addFoods">Add Meal</a>
+                <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <div class="alert alert-light d-flex justify-content-between" role="alert">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="#">Home</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Users</li>
+                        </ol>
+                      </nav>
+                    </div><hr>
+                    <% console.log(foods)%>
+                    <table class="table table-striped">
+                      <% if(users.length > 0){%>
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           
+                            <% let id = 1%>
+                            <% users.forEach(function(user){ %>
+                          <tr>
+                            <th scope="row"><%= id %></th>
+                            <td><%= user.name%></td>
+                            <td><%= user.email%></td>
+                            <td><%= user.department%></td>
+                            <td>approve</td>
+                            <td>
+                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editModal">edit</button>
+                                <a id="delete-btn" href="" class="btn btn-danger delete-btn" data-id="<%=user._id%>">Delete</a>
+                            </td>
+                          </tr>
+                          <% id++ %>
+                          <% }); %>
+                            <%}else{%>
+                              <h2>No User Available</h2>
+                              <%}%>
+                        </tbody>
+                      </table>
+                </div>
+                <div class="tab-pane fade" id="list-adduser" role="tabpanel" aria-labelledby="list-adduser-list">
+                  <div class="card border-light mb-3 justify-content-center" >
+                    <div class="card-header">
+                      <h3>User Registration form</h3></div>
+                    <div class="card-body">
+                        <form action="/admin/register" method="POST" id="editUserForm">
+                            <div class="row">
+                                <div class="col mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                  <input type="text" class="form-control" name="name" id="name" placeholder="Name" aria-label="Name" value="" >
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Staff Id</label>
+                                  <input type="text" class="form-control" placeholder="Staff Id" name="staffId" aria-label="Staff Id" >
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Email</label>
+                                  <input type="email" class="form-control" name="email" placeholder="Email" aria-label="First name" >
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Department</label>
+                                    <select class="form-select" name="department" aria-label="Default select example" >
+                                        <option selected>Select your Department</option>
+                                        <option value="data science">Data Science</option>
+                                        <option value="Salesforce">Salesforce</option>
+                                        <option value="Software development">Software Development</option>
+                                        <option value="Software development">Software Testing</option>
+                                      </select>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Role</label>
+                                    <select class="form-select" name="role" aria-label="Default select example">
+                                        <option selected>Select your role</option>
+                                        <option value="staff">Staff</option>
+                                        <option value="trainee">Trainee</option>
+                                      </select>
+                                </div>
+                                <div class="col">
+                                  <input type="hidden" class="form-control" name="status" value="Not Appproved" >
+                                </div>
+                              </div>
+                              <button type="submit" class="btn btn-outline-warning mb-3">Register</button>
+                        </form>
+                    </div>
+                  </div>
+              </div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                    orders
+                </div>
+                <div class="tab-pane fade" id="list-addFoods" role="tabpanel" aria-labelledby="list-addFoods-list">
+                  <div class="card border-light mb-3 justify-content-center" >
+                    <div class="card-header">
+                      <h3>Adding Food form</h3></div>
+                    <div class="card-body">
+                        <form action="/admin/addFood" method="POST" id="editUserForm">
+                            <div class="row">
+                                <div class="col mb-3">
+                                <label for="exampleFormControlInput1" class="form-label"> Food Name</label>
+                                  <input type="text" class="form-control" name="foodname" id="foodname" placeholder="Food Name" aria-label="Name" value="" >
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Image</label>
+                                  <input type="file" class="form-control" placeholder="" name="image" aria-label="Staff Id" >
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Description</label>
+                                  <input type="text" class="form-control" name="description" placeholder="Description" aria-label="First name" >
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label">Day</label>
+                                    <select class="form-select" name="day" aria-label="Default select example" >
+                                        <option selected>Select a Day</option>
+                                        <option value="monday">Monday</option>
+                                        <option value="tuesday">Tuesday</option>
+                                        <option value="wednesday">Wednesday</option>
+                                        <option value="thursday">Thursday</option>
+                                        <option value="friday">Friday</option>
+                                      </select>
+                                </div>
+                              </div>
+                             
+                              <button type="submit" class="btn btn-outline-warning mb-3">Add Food</button>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+<%- include('inc/footer.ejs')-%>
+
+
+
+
+<div class="modal fade " id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit User Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/register" method="POST">
+                <div class="row">
+                    <div class="col mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Name</label>
+                      <input type="text" class="form-control" name="name" placeholder="Name" aria-label="Name" required>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Staff Id</label>
+                      <input type="text" class="form-control" placeholder="Staff Id" name="staffId" aria-label="Staff Id" required>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                      <input type="text" class="form-control" name="email" placeholder="Email" aria-label="First name" required>
+                    </div>
+                    <div class="col mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Department</label>
+                        <select class="form-select" name="department" aria-label="Default select example" required>
+                            <option selected>Select your Department</option>
+                            <option value="data science">Data Science</option>
+                            <option value="Salesforce">Salesforce</option>
+                            <option value="Software development">Software Development</option>
+                            <option value="Software development">Software Testing</option>
+                          </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Role</label>
+                        <select class="form-select" name="role" aria-label="Default select example">
+                            <option selected>Select your role</option>
+                            <option value="admin">Admin</option>
+                            <option value="manager">Resturant Manager</option>
+                          </select>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+                 
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-warning ">Register</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
